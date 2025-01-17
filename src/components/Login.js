@@ -8,7 +8,7 @@ function Login() {
   const classes = useStyles()
   const navigate = useNavigate()
   const [username, setUser] = useState("")
-  const [password, setPassword] = useState("")
+  const [userPassword, setPassword] = useState("")
   // const [message, setMessage] = useState('');
 
   const handleInputUser = (event) => {
@@ -24,8 +24,8 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault()
     const body = {
-      username,
-      password,
+      username: username,
+      password: userPassword,
     }
     try {
       const response = await axios.post('http://localhost:3000/login', body);
@@ -33,6 +33,8 @@ function Login() {
       // setMessage('Login successful!');
       localStorage.setItem('accessToken', response.data.accessToken);
       localStorage.setItem('refreshToken', response.data.refreshToken);
+      setPassword("")
+      setUser("")
       navigate("/mainpage")
     } catch (error) {
       console.error('There was an error!', error);
@@ -53,7 +55,7 @@ function Login() {
         />
         <TextField
           className={classes.textField}
-          value={password}
+          value={userPassword}
           label="Password"
           variant="outlined"
           type="password"
