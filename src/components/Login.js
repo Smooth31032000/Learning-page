@@ -28,7 +28,7 @@ function Login() {
       password: userPassword,
     }
     try {
-      const response = await axios.post('http://localhost:3000/login', body);
+      const response = await axios.post('http://localhost:3000/auth/login', body);
       // console.log(response.data);
       // setMessage('Login successful!');
       localStorage.setItem('accessToken', response.data.accessToken);

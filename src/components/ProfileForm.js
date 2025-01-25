@@ -1,11 +1,14 @@
 import { Box, Button, Container } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useNavigate } from "react-router-dom";
-import InputName from "./inputComponents/InputName";
+import dayjs from "dayjs";
 import { useState } from "react";
-import InputEmail from "./inputComponents/InputEmail";
-import InputPassword from "./inputComponents/InputPassword";
+import { useNavigate } from "react-router-dom";
 import InputDate from "./inputComponents/InputDate";
+import InputEmail from "./inputComponents/InputEmail";
+import InputName from "./inputComponents/InputName";
+import InputPassword from "./inputComponents/InputPassword";
+import handleDateChange from "../common/handleConvertDate";
+
 
 
 function ProfileForm() {
@@ -14,15 +17,17 @@ function ProfileForm() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  // const [dateOfBirth, setDateOfBirth] = useState("")
+  const [dateOfBirth, setDateOfBirth] = useState(null)
   const [disabled, setDisabled] = useState(true)
+
 
   const handleSubmit = (event) => {
     event.preventDefault()
     const body = {
       name: name,
       email: email,
-      password: password
+      password: password,
+      dateOfBirth: handleDateChange(dateOfBirth.$d)
     }
     setEmail("")
     setName("")
@@ -49,11 +54,9 @@ function ProfileForm() {
     setDisabled(inputValue.trim().length === 0);
   }
 
-  // const handleInputDateOfBirth = (event) => {
-  //   const inputValue = event.target.value
-  //   setDateOfBirth(inputValue)
-  //   setDisabled(inputValue.trim().length === 0);
-  // }
+  const handleInputDateOfBirth = (value) => {
+    setDateOfBirth(value)
+  }
 
 
   return (
@@ -93,6 +96,9 @@ function ProfileForm() {
               type="date"
               label="Date of Birth"
               format="DD/MM/YYYY"
+              inputValue={dateOfBirth}
+              defaultValue={dayjs()}
+              handleInput={handleInputDateOfBirth}
             />
           </Box>
           <Button type="submit" variant="contained" disabled={disabled}>
